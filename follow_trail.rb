@@ -1,5 +1,5 @@
 #==============================================================================
-# ** Follow Trail                                                  (2022-09-07)
+# ** Follow Trail v1.0.1                                           (2022-09-07)
 #    by Wreon
 #------------------------------------------------------------------------------
 #  This script allows chasing events to follow the player's trail exactly,
@@ -12,6 +12,11 @@
 #  watch_player_movement is only necessary if follow_player_movement is called
 #  after the player starts moving, for example an event that waits a bit before
 #  chasing.
+#  
+#  Release v1.0.1:
+#    -Fixed followers blocking initial watched movement (lines 130-133)
+#  Release v1.0.0:
+#    -Base release
 #==============================================================================
 
 # The maximum length of the movement record array before it cuts off to avoid
@@ -119,10 +124,13 @@ class Game_Event
     if @x == player_start_pos[0] and @y == player_start_pos[1] then
       @reached_start_pos = true
     end
-    # Pathfind to the player's start point first of all
+    # Move to the player's start point first of all
     if !@reached_start_pos then
       # Removed due to issues: pathfind(@player_start_pos[0], @player_start_pos[1])
+      previous_through = @through
+      @through = true
       move_toward_target(player_start_pos[0], player_start_pos[1])
+      @through = previous_through
     # Follow the player's movements
     else
       # Begin following the player from their first movement
