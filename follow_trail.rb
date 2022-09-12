@@ -14,7 +14,7 @@
 #  chasing.
 #  
 #  Release v1.0.1:
-#    -Fixed followers blocking initial watched movement (lines 130-133)
+#    -Fixed followers blocking movement
 #  Release v1.0.0:
 #    -Base release
 #==============================================================================
@@ -57,7 +57,7 @@ class Game_Player
   alias movement_record_move_straight move_straight
   def move_straight(d, turn_ok = true)
     movement_record_move_straight(d, turn_ok)
-    @movement_record.push([0, d, turn_ok]) if @movement_record and @movement_record.length < MOVEMENT_RECORD_MAX_LENGTH
+    @movement_record.push([0, d, turn_ok]) if @move_succeed and @movement_record and @movement_record.length < MOVEMENT_RECORD_MAX_LENGTH
   end
   #--------------------------------------------------------------------------
   # * Move Diagonally
@@ -65,7 +65,7 @@ class Game_Player
   alias movement_record_move_diagonal move_diagonal
   def move_diagonal(horz, vert)
     movement_record_move_diagonal(horz, vert)
-    @movement_record.push([1, horz, vert]) if @movement_record and @movement_record.length < MOVEMENT_RECORD_MAX_LENGTH
+    @movement_record.push([1, horz, vert]) if @move_succeed and @movement_record and @movement_record.length < MOVEMENT_RECORD_MAX_LENGTH
   end
   #--------------------------------------------------------------------------
   # * Jump
@@ -141,7 +141,7 @@ class Game_Event
       current_movement = $game_player.movement_record[@player_movement_record_index]
       if current_movement then
         previous_through = @through
-        @through = false
+        @through = true
         # Move straight
         if current_movement[0] == 0 then
           move_straight(current_movement[1], current_movement[2])
