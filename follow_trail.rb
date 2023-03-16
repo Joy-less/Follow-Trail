@@ -1,6 +1,6 @@
 #==============================================================================
 # ** Follow Trail v1.0.1                                           (2022-09-07)
-#    by Wreon
+#    by Joyless
 #------------------------------------------------------------------------------
 #  This script allows chasing events to follow the player's trail exactly,
 #  including diagonal movement and jumping.
